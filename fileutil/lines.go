@@ -2,23 +2,26 @@ package fileutil
 
 import (
 	"bufio"
+	"io"
 	"os"
 )
 
-func ReadLines(fname string) ([]string, error) {
+func LoadLines(fname string) ([]string, error) {
 	file, err := os.Open(fname)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
+	return LoadLines(file)
+}
 
+func ReadLines(r io.Reader) ([]string, error) {
 	var lines []string
-	// Read through lines of file.
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
+	s := bufio.NewScanner(r)
+	for s.Scan() {
+		lines = append(lines, s.Text())
 	}
-	if err := scanner.Err(); err != nil {
+	if err := s.Err(); err != nil {
 		return nil, err
 	}
 	return lines, nil

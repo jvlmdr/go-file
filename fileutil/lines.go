@@ -12,7 +12,7 @@ func LoadLines(fname string) ([]string, error) {
 		return nil, err
 	}
 	defer file.Close()
-	return LoadLines(file)
+	return ReadLines(file)
 }
 
 func ReadLines(r io.Reader) ([]string, error) {
